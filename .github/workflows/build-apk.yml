@@ -31,6 +31,18 @@ jobs:
       - name: Install Bubblewrap
         run: npm install -g @bubblewrap/cli
 
+      - name: Pre-configure Bubblewrap (skip JDK/SDK install prompts)
+        run: |
+          mkdir -p ~/.bubblewrap
+          cat > ~/.bubblewrap/config.json <<EOF
+          {
+            "jdkPath": "$JAVA_HOME",
+            "androidSdkPath": "$ANDROID_HOME"
+          }
+          EOF
+          echo "Bubblewrap config:"
+          cat ~/.bubblewrap/config.json
+
       - name: Generate signing keystore
         run: |
           if [ ! -f "android.keystore" ]; then
@@ -47,9 +59,10 @@ jobs:
           BUBBLEWRAP_KEY_PASSWORD: romanplan
         run: |
           export GRADLE_OPTS="-Xmx2g -Dorg.gradle.daemon=false"
-          printf 'romanplan\nromanplan\n' | bubblewrap build --skipPwaValidation
+          bubblewrap build --skipPwaValidation
 
       - name: List built files
+        if: always()
         run: find . -name "*.apk" -o -name "*.aab"
 
       - uses: actions/upload-artifact@v4
@@ -65,5 +78,4 @@ jobs:
         with:
           name: signing-keystore
           path: android.keystore
-          retention-days: 90
-          if-no-files-found: warn
+          retention
