@@ -1,0 +1,29 @@
+{
+  "name": "Roman's Plan",
+  "short_name": "Roman",
+  "description": "Knee rehab, 10-min calisthenics, Aba Hatuv-tilted-to-fat-loss meal plan, recipes, progress photos, voice lines.",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#07080F",
+  "theme_color": "#6366F1",
+  "scope": "./",
+  "lang": "en",
+  "categories": ["health", "fitness", "lifestyle"],
+  "icons": [
+    {
+      "src": "../icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "../icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "prefer_related_applications": false
+}

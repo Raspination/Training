@@ -1,0 +1,22 @@
+{
+  "name": "roman-plan-build",
+  "version": "1.0.0",
+  "description": "Build Roman's Plan as an Android APK using Bubblewrap. No Android Studio required.",
+  "private": true,
+  "scripts": {
+    "init": "bubblewrap init --manifest=$npm_config_manifest",
+    "build": "bubblewrap build --skipPwaValidation",
+    "update": "bubblewrap update && bubblewrap build --skipPwaValidation",
+    "doctor": "bubblewrap doctor",
+    "serve": "npx http-server www -p 8080 --cors -c-1",
+    "verify": "node verify-pwa.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@bubblewrap/cli": "^1.21.1",
+    "http-server": "^14.1.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
