@@ -46,7 +46,8 @@ jobs:
         env:
           BUBBLEWRAP_KEYSTORE_PASSWORD: romanplan
           BUBBLEWRAP_KEY_PASSWORD: romanplan
-        run: bubblewrap build --skipPwaValidation
+        run: |
+          printf 'n\n' | bubblewrap build --skipPwaValidation
 
       - name: List artifacts
         if: always()
