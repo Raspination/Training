@@ -9,9 +9,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    permissions:
-      contents: read
-
     steps:
       - uses: actions/checkout@v4
 
@@ -31,51 +28,33 @@ jobs:
       - name: Install Bubblewrap
         run: npm install -g @bubblewrap/cli
 
-      - name: Pre-configure Bubblewrap (skip JDK/SDK install prompts)
+      - name: Pre-configure Bubblewrap
         run: |
-          mkdir -p ~/.bubblewrap
-          cat > ~/.bubblewrap/config.json <<EOF
-          {
-            "jdkPath": "$JAVA_HOME",
-            "androidSdkPath": "$ANDROID_HOME"
-          }
-          EOF
-          echo "Bubblewrap config:"
-          cat ~/.bubblewrap/config.json
+          mkdir -p $HOME/.bubblewrap
+          printf '{"jdkPath":"%s","androidSdkPath":"%s"}' "$JAVA_HOME" "$ANDROID_HOME" > $HOME/.bubblewrap/config.json
+          cat $HOME/.bubblewrap/config.json
 
-      - name: Generate signing keystore
-        run: |
-          if [ ! -f "android.keystore" ]; then
-            keytool -genkeypair -v \
-              -keystore android.keystore -alias android \
-              -keyalg RSA -keysize 2048 -validity 36500 \
-              -storepass romanplan -keypass romanplan \
-              -dname "CN=Roman, O=Roman, L=Tel Aviv, C=IL"
-          fi
+      - name: Generate keystore
+        run: keytool -genkeypair -v -keystore android.keystore -alias android -keyalg RSA -keysize 2048 -validity 36500 -storepass romanplan -keypass romanplan -dname "CN=Roman, O=Roman, L=Tel Aviv, C=IL"
 
       - name: Build APK
         env:
           BUBBLEWRAP_KEYSTORE_PASSWORD: romanplan
           BUBBLEWRAP_KEY_PASSWORD: romanplan
-        run: |
-          export GRADLE_OPTS="-Xmx2g -Dorg.gradle.daemon=false"
-          bubblewrap build --skipPwaValidation
+        run: bubblewrap build --skipPwaValidation
 
-      - name: List built files
+      - name: List artifacts
         if: always()
         run: find . -name "*.apk" -o -name "*.aab"
 
       - uses: actions/upload-artifact@v4
         with:
           name: roman-plan-apk
-          path: |
-            app-release-signed.apk
-            app-release-bundle.aab
-          retention-days: 90
+          path: app-release-signed.apk
           if-no-files-found: warn
 
       - uses: actions/upload-artifact@v4
         with:
           name: signing-keystore
           path: android.keystore
-          retention
+          if-no-files-found: warn
