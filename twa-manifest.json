@@ -5,21 +5,14 @@
   "launcherName": "Roman",
   "display": "standalone",
   "themeColor": "#6366F1",
-  "themeColorDark": "#07080F",
   "navigationColor": "#07080F",
-  "navigationColorDark": "#07080F",
-  "navigationDividerColor": "#07080F",
-  "navigationDividerColorDark": "#07080F",
   "backgroundColor": "#07080F",
   "enableNotifications": true,
   "startUrl": "/Training/www/",
   "iconUrl": "https://raspination.github.io/Training/icons/icon-512.png",
   "maskableIconUrl": "https://raspination.github.io/Training/icons/icon-512.png",
   "splashScreenFadeOutDuration": 300,
-  "signingKey": {
-    "path": "./android.keystore",
-    "alias": "android"
-  },
+  "signingKey": { "path": "./android.keystore", "alias": "android" },
   "appVersionName": "1.0.0",
   "appVersionCode": 1,
   "shortcuts": [],
@@ -27,9 +20,7 @@
   "webManifestUrl": "https://raspination.github.io/Training/www/manifest.webmanifest",
   "fallbackType": "customtabs",
   "features": {},
-  "alphaDependencies": {
-    "enabled": false
-  },
+  "alphaDependencies": { "enabled": false },
   "enableSiteSettingsShortcut": true,
   "isChromeOSOnly": false,
   "isMetaQuest": false,
