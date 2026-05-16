@@ -47,7 +47,21 @@ jobs:
           BUBBLEWRAP_KEYSTORE_PASSWORD: romanplan
           BUBBLEWRAP_KEY_PASSWORD: romanplan
         run: |
-          yes '' | bubblewrap build --skipPwaValidation
+          sudo apt-get install -y expect
+          expect <<'EOF'
+          set timeout 600
+          spawn bubblewrap build --skipPwaValidation
+          expect {
+            -re "regenerate.*Y/n" { send "Y\r"; exp_continue }
+            -re "versionName" { send "1.0.1\r"; exp_continue }
+            -re "versionCode" { send "2\r"; exp_continue }
+            -re "password" { send "romanplan\r"; exp_continue }
+            -re "Y/n" { send "Y\r"; exp_continue }
+            -re ":" { send "\r"; exp_continue }
+            timeout { puts "TIMEOUT"; exit 1 }
+            eof
+          }
+          EOF
 
       - name: List artifacts
         if: always()
